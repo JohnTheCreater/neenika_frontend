@@ -1,11 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import Header from "../../components/header/header";
 import LayOut from "../LayOut/LayOut";
 import DailyReport from "./DailyReport/DailyReport";
 import { SlArrowRightCircle, SlArrowLeftCircle } from "react-icons/sl";
-import DateContext from "./DateContext";
-import { setActive } from "@material-tailwind/react/components/Tabs/TabsContext";
 
 function Dashboard() {
   const [newDate, setNewDate] = useState(new Date());

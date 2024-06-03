@@ -1,12 +1,4 @@
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  getKeyValue,
-} from "@nextui-org/react";
+
 import { React, useEffect, useState } from "react";
 import axios from "axios";
 import LayOut from "../LayOut/LayOut";

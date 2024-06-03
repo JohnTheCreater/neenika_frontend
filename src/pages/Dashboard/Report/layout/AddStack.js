@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import LayOut from "../../../LayOut/LayOut";
 import { useNavigate, useParams } from "react-router-dom";
 import Drop from "./Drop";
-import { FaRegSquarePlus } from "react-icons/fa6";
 import { FiPlus } from "react-icons/fi";
 import dayjs from "dayjs";
 import axios from "axios";

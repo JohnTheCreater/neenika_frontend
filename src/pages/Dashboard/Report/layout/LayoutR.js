@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Input } from "semantic-ui-react";
 import Search from "../../Search";
 import DropdownL from "../../DropdownL";
-import Slide from "./Slide";
 import ToggleButton from "./ToggleButton";
 import { TiMinusOutline } from "react-icons/ti";
 import { TiPlusOutline } from "react-icons/ti";

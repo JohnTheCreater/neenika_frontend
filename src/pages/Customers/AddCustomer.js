@@ -1,9 +1,7 @@
 import { React, useState } from "react";
   import DropdownL from "../Dashboard/DropdownL";
-import { list } from "postcss";
 import { IoCloseSharp } from "react-icons/io5";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const AddCustomer = ({ isAdd, setIsAdd }) => {
   const genders = ["male", "female", "others"];

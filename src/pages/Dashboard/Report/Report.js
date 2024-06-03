@@ -1,10 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, {  useState } from "react";
 import LayOut from "../../LayOut/LayOut";
 import DropdownL from "../DropdownL";
-import DateContext from "../DateContext"; // Import the context
 
 import LayoutR from "./layout/LayoutR";
-import { useLocation, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 
 function Report() {
   const options = ["Madurai", "Karisal", "Production"];
