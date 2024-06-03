@@ -1,17 +1,82 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React, { useEffect,useState } from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import "./tailwind.css";
+import reportWebVitals from "./reportWebVitals";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Customers from "./pages/Customers/customers";
+import Home from "./pages/Home/home";
+import Root from "./routes/root";
+import Dashboard from "./pages/Dashboard/dashboard";
+import Sales from "./pages/Sales/sales";
+import { useNavigate } from "react-router-dom";
+import Report from "./pages/Dashboard/Report/Report";
+import DateContext from './pages/Dashboard/DateContext'; // Replace './DateContext' with the actual path to your DateContext file
+import AddStack from "./pages/Dashboard/Report/layout/AddStack";
+import Login from "./pages/Login/Login";
+import PrivateRoute from "./PrivateRoute";
+import { AuthProvider } from "./AuthContext";
+import SetPassword from "./pages/SetPassword/SetPassword";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const DefaultRedirect = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate("/login");
+  }, [navigate]);
+
+  return null;
+};
+
+const router = createBrowserRouter([
+  {
+    path: "/home",
+    element: <PrivateRoute element={Home}/>
+  },
+  {
+    path: "/dashboard",
+    element: <PrivateRoute element={Dashboard}/>,
+  },
+
+  {
+    path: "/customers",
+    element: <PrivateRoute element={Customers }/>,
+  },
+  {
+    path: "/sales",
+    element: <PrivateRoute element={Sales }/>,
+  },
+  {
+    path: "*",
+    element: <DefaultRedirect />,
+  },
+  {
+    path: "dashboard/report/:date/:month/:year",
+    element:<PrivateRoute element={Report}/> ,
+  },
+  {
+    path:"/addstack/:date/:shop",
+    element: <PrivateRoute element={AddStack}/>
+  }
+  ,
+  {
+    path:"/login",
+    element:<Login/>
+  }
+  ,
+  {
+    path:"/setPassword",
+    element:<SetPassword/>
+  }
+]);
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <AuthProvider>
+      <RouterProvider router={router} />
+      </AuthProvider>
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

@@ -1,13 +1,66 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
+/* This will affect the entire document */
+* {
+    scrollbar-width: thin; /* "auto" or "thin"  */
+    scrollbar-color: rgb(255, 255, 255) rgb(6, 3, 65); /* scrollbar color */
+  }
+  
+  /* Total width and height of the scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    
+    
+  }
+
+  .shadow-left {
+    box-shadow: -10px 0px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Background of the scrollbar except button or resizer */
+  ::-webkit-scrollbar-track {
+    background: rgb(161, 161, 161);
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+  
+  /* Scrollbar handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgb(86, 88, 86);
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+    
+  }
+  
+  /* Scrollbar handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(39, 252, 121, 0.619);
+  }
+
+  input[type='number'].no-arrows::-webkit-inner-spin-button, 
+input[type='number'].no-arrows::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+input[type='number'].no-arrows { 
+  -moz-appearance: textfield; 
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+
+html {
+  overflow-y: scroll;
+}
+.slick-next:before, .slick-prev:before {
+  color: rgb(77, 77, 77) !important;
+}
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 }
