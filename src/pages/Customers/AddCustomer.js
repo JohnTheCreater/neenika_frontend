@@ -135,7 +135,7 @@ const AddCustomer = ({ isAdd, setIsAdd }) => {
         })
         .catch((err) => {
           console.log("res", err.response.status);
-          if (err.response.status == 409) {
+          if (err.response.status === 409) {
             
             setErrors((prevError) => {
               const error_details = { ...prevError };
