@@ -15,8 +15,8 @@ const Search = ({
 
   useEffect(() => {
     setInputValue(selectedName);
-    console.log("data:", data);
-  }, []);
+    // console.log("data:", data);
+  }, [selectedName]);
 
   useEffect(() => {
     setSelectedSuggestion(-1);
@@ -69,11 +69,11 @@ const Search = ({
   };
 
   const handleNameSelect = (name) => {
-    {
+    
       setInputValue(name);
       setSuggestion([]);
       onNameSelect(name);
-    }
+    
   };
 
   return (

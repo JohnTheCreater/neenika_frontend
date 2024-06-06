@@ -44,10 +44,10 @@ const EditCustomer = ({ setIsEdit }) => {
       .catch((err) => console.log(err));
   }, [sureRemove]);
 
-  useEffect(() => {
-    console.log("con", customerList);
-  }, [userList]);
-  //submit
+  // useEffect(() => {
+  //   console.log("con", customerList);
+  // }, [userList]);
+  // //submit
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -103,7 +103,7 @@ const EditCustomer = ({ setIsEdit }) => {
         })
         .catch((err) => {
           console.log("res", err.response.status);
-          if (err.response.status == 409) {
+          if (err.response.status === 409) {
             setErrors((prevError) => {
               const error_details = { ...prevError };
               error_details.userFound =
@@ -191,7 +191,7 @@ const EditCustomer = ({ setIsEdit }) => {
   const handleUserSelect=(name)=>{
     setSelectedUser(name);
     setNoName(false)
-    const user=userList.find(user=>user.full_name==name)
+    const user=userList.find(user=>user.full_name===name)
     setFormDetails({
       fullname:user.full_name,
       gender:user.gender,

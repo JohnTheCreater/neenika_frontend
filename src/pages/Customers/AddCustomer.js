@@ -79,7 +79,7 @@ const AddCustomer = ({ isAdd, setIsAdd }) => {
       trimedMobileNo === "" ||
       trimedEmail === "" ||
       trimedCity === "" ||
-      trimedZip == ""
+      trimedZip === ""
     ) {
       setErrors((prevErrors) => {
         const error_details = { ...prevErrors };
@@ -154,7 +154,6 @@ const AddCustomer = ({ isAdd, setIsAdd }) => {
 
     console.log(trimedName);
 
-    const error_details = {};
     console.log(formDetails.fullname);
 
   };

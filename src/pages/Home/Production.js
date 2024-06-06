@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useState } from "react";
 import { MdOutlineClose } from "react-icons/md";
 
@@ -17,7 +17,7 @@ const AddRaw = ({ setIsAddRaw, setIsError }) => {
   const [isCalendarOpen,setIsCalendarOpen]=useState(false)
   const handleChange = (e) => {
     const value = e.target.value;
-    if (value != 0) setRawData({ type: selected, value: value,date:date });
+    if (value !== 0) setRawData({ type: selected, value: value,date:date });
     else e.target.value = "";
   };
   useEffect(()=>{
@@ -102,8 +102,8 @@ const DoGrind = ({ setIsDoGrind, setIsError }) => {
   };
 
   useEffect(() => {
-    setGrindData({ ...grindData, oilType: selected,date:date });
-  }, [selected,date]);
+    setGrindData(prevGrindData => ({ ...prevGrindData, oilType: selected, date: date }));
+    }, [selected,date]);
 
   useEffect(() => {
     console.log(grindData);
@@ -208,8 +208,8 @@ const DoGrind = ({ setIsDoGrind, setIsError }) => {
 
 const Production = () => {
   const color = ["red", "yellow", "blue"];
-  const products = ["oil", "cake", "raw"];
-  const type=["sesame","groundnut","coconut"]
+  // const products = ["oil", "cake", "raw"];
+  const type=useMemo(()=>["sesame","groundnut","coconut"],[])
   const [isAddRaw, setIsAddRaw] = useState(false);
   const [isDoGrind, setIsDoGrind] = useState(false);
   const [prodInfo, setProdInfo] = useState([]);
@@ -284,21 +284,21 @@ const Production = () => {
   
     newLogList.sort((a, b) => new Date(b.date) - new Date(a.date));
     setModifiedLogList(newLogList);
-  }, [loglist]);
-  const log = [
-    "30 kg raw coconut credtited ",
-    "30kg raw coconut used ,2grinds and 50 ltr coconut oil recived!",
-    "45kg raw groundnut credited!",
-    "30 kg raw coconut credtited ",
-    "30kg raw coconut used ,2grinds and 50 ltr coconut oil recived!",
-    "45kg raw groundnut credited!",
-    "30 kg raw coconut credtited ",
-  ];
-  const stack = [
-    { sesame: 20, groundnut: 50, coconut: 3 },
-    { sesame: 20, groundnut: 50, coconut: 3 },
-    { sesame: 20, groundnut: 50, coconut: 3 },
-  ];
+  }, [loglist,type]);
+  // const log = [
+  //   "30 kg raw coconut credtited ",
+  //   "30kg raw coconut used ,2grinds and 50 ltr coconut oil recived!",
+  //   "45kg raw groundnut credited!",
+  //   "30 kg raw coconut credtited ",
+  //   "30kg raw coconut used ,2grinds and 50 ltr coconut oil recived!",
+  //   "45kg raw groundnut credited!",
+  //   "30 kg raw coconut credtited ",
+  // ];
+  // const stack = [
+  //   { sesame: 20, groundnut: 50, coconut: 3 },
+  //   { sesame: 20, groundnut: 50, coconut: 3 },
+  //   { sesame: 20, groundnut: 50, coconut: 3 },
+  // ];
   const metaInfo=["oil","cake","raw"]
 
 

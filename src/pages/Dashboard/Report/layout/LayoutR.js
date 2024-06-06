@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 //
-import { Input } from "semantic-ui-react";
 import Search from "../../Search";
 import DropdownL from "../../DropdownL";
 import ToggleButton from "./ToggleButton";
@@ -11,9 +10,9 @@ import { ImCross } from "react-icons/im";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const InputEx = () => (
-  <Input icon="users" iconPosition="left" placeholder="Search users..." />
-);
+// const InputEx = () => (
+//   <Input icon="users" iconPosition="left" placeholder="Search users..." />
+// );
 const MoneyBox = ({ lend, paid }) => {
   return (
     <div className="bg-neutral  text-neutral-content w-[60%] p-3 rounded-box ">
@@ -65,7 +64,7 @@ const Edit = ({ setEditMode, date, list1, userList, shop }) => {
     console.log("new list", list1);
     // setSizeIndex(list1.)
     //       set
-  }, []);
+  }, [list1]);
 
   const insertSales = () => {
     console.log("list  hehe", list);
@@ -87,7 +86,7 @@ const Edit = ({ setEditMode, date, list1, userList, shop }) => {
   const handleSelect = (name) => {
     // console.log(name);
     setSelectedName(name);
-    let user = userList.find((user) => user.full_name == name);
+    let user = userList.find((user) => user.full_name === name);
     setUserId(user.user_id);
     // console.log("user id", userId);
     setNoName(false);
@@ -126,7 +125,7 @@ const Edit = ({ setEditMode, date, list1, userList, shop }) => {
           shop,
         },
       ];
-      if(list.find((item)=>item.user_id==userId&&item.volume_id==sizeIndex&&item.product_id==oilIndex))
+      if(list.find((item)=>item.user_id===userId&&item.volume_id===sizeIndex&&item.product_id===oilIndex))
       {
         setError({message:"already have this user with this produuct! kindly update quantity!",state:true})
       }
@@ -211,7 +210,7 @@ const Edit = ({ setEditMode, date, list1, userList, shop }) => {
             <div className="">
               {list.map((item, index) => {
                 const user = userList.find(
-                  (user) => user.user_id == item.user_id
+                  (user) => user.user_id === item.user_id
                 );
 
                 return (
@@ -453,7 +452,7 @@ function ReportLayOut({ products, columns, date, shop }) {
   useEffect(() => {
     let totalPaid = 0;
     let totalLend = 0;
-    list.map((item) => {
+    list.forEach((item) => {
       if (item.isChecked) totalPaid += parseInt(item.total_price);
       else totalLend += parseInt(item.total_price);
     });
@@ -476,7 +475,7 @@ function ReportLayOut({ products, columns, date, shop }) {
         setList(res.data);
         get_list();
       });
-  }, [editMode, shop]);
+  }, [editMode, shop,date]);
   const get_list = () => {
     axios
       .post("https://neenika-backend.onrender.com/api/getCustomer")
@@ -526,7 +525,7 @@ function ReportLayOut({ products, columns, date, shop }) {
               <div className="overflow-auto m-3">
                 {list.map((item, index) => {
                   const user = userList.find(
-                    (user) => user.user_id == item.user_id
+                    (user) => user.user_id === item.user_id
                   );
 
                   return (
@@ -576,7 +575,7 @@ function ReportLayOut({ products, columns, date, shop }) {
             columns={columns}
             sums={sums}
             date={date}
-            shop={shop == "Madurai" ? 1 : 2}
+            shop={shop === "Madurai" ? 1 : 2}
           />
         </div>
       </div>

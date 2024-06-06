@@ -5,7 +5,7 @@ function DailyReport({day,date,month,year}) {
     <div className=' flex shadow-xl rounded-box w-40 h-[100%]  border justify-center  '>
        
         <div className="border  m-0 w-[100%] p-5 h-full  bg-neutral text-white rounded-box backdrop-blur-2xl glass  ">
-                    <a href="#" className='' data-page="dashboard/report/report.html" >
+                    <button className='w-full h-full'>
                        <div className='flex min-w-5 justify-between text-2xl '>
                             <span className='min-w-5 '>{day}</span>
                             <div className="font-bold "><span className='min-w-10 w-10 '>{date}</span></div>
@@ -15,7 +15,7 @@ function DailyReport({day,date,month,year}) {
                         <span className=''>{year}</span>
                           </div>                                            
                         
-                    </a>
+                    </button>
                 </div>
           </div>
     

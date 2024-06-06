@@ -12,7 +12,7 @@ const Slide = ({ list, shop }) => {
   const volume = ["1 ltr", "1/2 ltr", "200 ml", "100 ml"];
   const color = ["red", "yellow", "blue"];
   const prod = ["bottle caps", "stickers"];
-  const[shopp,setShopp]=useState(shop=="Madurai"?1:2)
+  const shopp=shop==="Madurai"?1:2;
   const [oilData,setOilData]=useState([])
   const [oilList,setOilList]=useState([])
   const [cakeList,setCakeList]=useState([])
@@ -31,20 +31,20 @@ const Slide = ({ list, shop }) => {
 
   useEffect(()=>{
     const oil_stack=oilData?.reduce((acc,item)=>{
-      if(item.shop==shopp && item.type==1)
+      if(item.shop===shopp && item.type===1)
         acc.push(item)
       return acc
     },[])
     console.log(oil_stack)
     setOilList(oil_stack)
     const cake_stack=oilData.reduce((acc,item)=>{
-      if(item.shop==shopp && item.type==2)
+      if(item.shop===shopp && item.type===2)
         acc.push(item)
       return acc
     },[])
     setCakeList(cake_stack)
 
-  },[oilData])
+  },[oilData,shopp])
   useEffect(()=>{
     axios.get("https://neenika-backend.onrender.com/api/getOilStack")
     .then(result=>{
@@ -138,9 +138,9 @@ function Home() {
       .catch((err) => console.log(err));
   }, []);
   useEffect(() => {
-    const madurai_stack = data.filter((item) => item.shop == 1);
+    const madurai_stack = data.filter((item) => item.shop === 1);
     setMaduraiData(madurai_stack);
-    const karisal_stack = data.filter((item) => item.shop == 2);
+    const karisal_stack = data.filter((item) => item.shop === 2);
     setKarisalData(karisal_stack);
   }, [data]);
 

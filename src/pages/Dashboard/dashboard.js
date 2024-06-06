@@ -17,32 +17,7 @@ function Dashboard() {
   // });
   // const {setDateInfo}=useContext(DateContext)
 
-  const [dates, setDates] = useState({});
-  const getMonths = () => {
-    const months = [];
-    for (let i = 0; i < 3 ; i++) {
-      const prevMonth = new Date(newDate);
-      console.log("dada:",newDate)
-      if(i!=0&&months[i-1]=="jan")
-      {
-        break;
-      }
-      prevMonth.setDate(1);
-      prevMonth.setMonth(newDate.getMonth() - i);
-      console.log(newDate.getMonth() - i);
-      const month = prevMonth
-        .toLocaleString("default", { month: "short" })
-        .toLowerCase();
-      months.push(month);
-      console.log(months);
-      if (prevMonth.getMonth() === 0) {
-        setIsActiveYear(isActiveYear);
-      }
-     
-    
-    }
-    return months;
-  };
+ 
   const getYears = () => {
     const years = [];
     for (let i = 0; i < 3; i++) {
@@ -51,7 +26,7 @@ function Dashboard() {
       const prevYear = prevYearDate.getFullYear();
       years.push(prevYear);
 
-      if (prevYear == 2022) {
+      if (prevYear === 2022) {
         break;
       }
     }
@@ -73,8 +48,33 @@ function Dashboard() {
   const [months, setMonths] = useState([]);
 
   useEffect(() => {
+    const getMonths = () => {
+      const months = [];
+      for (let i = 0; i < 3 ; i++) {
+        const prevMonth = new Date(newDate);
+        console.log("dada:",newDate)
+        if(i!==0&&months[i-1]==="jan")
+        {
+          break;
+        }
+        prevMonth.setDate(1);
+        prevMonth.setMonth(newDate.getMonth() - i);
+        console.log(newDate.getMonth() - i);
+        const month = prevMonth
+          .toLocaleString("default", { month: "short" })
+          .toLowerCase();
+        months.push(month);
+        console.log(months);
+        if (prevMonth.getMonth() === 0) {
+          setIsActiveYear(isActiveYear);
+        }
+       
+      
+      }
+      return months;
+    };
     setMonths(getMonths());
-  }, [newDate]);
+  }, [newDate,isActiveYear]);
 
   const handlePrevMonth = () => {
     console.log("prev", newDate.getMonth());
@@ -90,7 +90,7 @@ function Dashboard() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    if (newDate<today&&newDate.getMonth()!=11) {
+    if (newDate<today&&newDate.getMonth()!==11) {
       const currentDate = new Date(newDate);
       
       currentDate.setMonth(newDate.getMonth() + 3);
@@ -118,7 +118,7 @@ function Dashboard() {
       date <= endOfMonth;
       date.setDate(date.getDate() + 1)
     ) {
-      if (date == today) {
+      if (date === today) {
         break;
       }
       dates.push(new Date(date));
@@ -169,7 +169,7 @@ function Dashboard() {
                 onClick={() => {
                   setIsActiveYear(year);
                   let prevYear;
-                  if(year!=new Date().getFullYear())
+                  if(year!==new Date().getFullYear())
                     prevYear = new Date(year,2);
                   else
                     prevYear = new Date();
@@ -180,7 +180,7 @@ function Dashboard() {
                   
                 }}
                 className={`btn  m-5 btn-neutral ${
-                  year == isActiveYear ? "" : "btn-outline"
+                  year === isActiveYear ? "" : "btn-outline"
                 }`}
               >
                 {year}

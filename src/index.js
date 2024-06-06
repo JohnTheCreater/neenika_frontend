@@ -1,18 +1,15 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
 import "./tailwind.css";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Customers from "./pages/Customers/customers";
 import Home from "./pages/Home/home";
-import Root from "./routes/root";
 import Dashboard from "./pages/Dashboard/dashboard";
 import Sales from "./pages/Sales/sales";
 import { useNavigate } from "react-router-dom";
 import Report from "./pages/Dashboard/Report/Report";
-import DateContext from './pages/Dashboard/DateContext'; // Replace './DateContext' with the actual path to your DateContext file
 import AddStack from "./pages/Dashboard/Report/layout/AddStack";
 import Login from "./pages/Login/Login";
 import PrivateRoute from "./PrivateRoute";

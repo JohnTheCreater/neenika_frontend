@@ -12,7 +12,7 @@ function Sales() {
   const options = ["Madurai", "Karisal"];
   const [current, setCurrent] = useState(options[0]);
   const [list, setList] = useState([]);
-  const [userIdList, setUserIdList] = useState([]);
+  // const [userIdList, setUserIdList] = useState([]);
   const [userList, setUserList] = useState([]);
   const [products, setProducts] = useState([]);
   const [volumes, setVolumes] = useState([]);
@@ -32,7 +32,7 @@ function Sales() {
       .then((res) => {
         setList(res.data);
         const userIds = res.data.map((user) => user.user_id);
-        setUserIdList(userIds);
+        // setUserIdList(userIds);
         return axios
           .post("https://neenika-backend.onrender.com/api/getCustomer", { list: userIds })
           .then((res) => {
@@ -129,7 +129,7 @@ function Sales() {
                 <th className="p-3 ">details</th>
                 <th className="p-3 ">quantity</th>
                 <th className="p-3 ">price</th>
-                <th className="  p-3 ">purchase type</th>
+                <th className="  p-3 max-w-60">purchase type</th>
               </tr>
             </thead>
             <tbody>
@@ -137,13 +137,13 @@ function Sales() {
                 const dateIST = dayjs(item.date).format("YYYY-MM-DD");
                 const purchase_type = item.isChecked ? "paid" : "unpaid";
                 const user = userList.find(
-                  (user) => user.user_id == item.user_id
+                  (user) => user.user_id === item.user_id
                 );
                 const product = products.find(
-                  (product) => product.product_id == item.product_id
+                  (product) => product.product_id === item.product_id
                 );
                 const volume = volumes.find(
-                  (volume) => volume.volume_id == item.volume_id
+                  (volume) => volume.volume_id === item.volume_id
                 );
                 console.log(volume);
                 return (
@@ -157,8 +157,10 @@ function Sales() {
                       {parseInt(item.total_price)}
                     </td>
                     <td
-                      className={`max-w-80 flex justify-between p-1 text-center bg-white `}
+                      className={`  p-1 text-center bg-white `}
                     >
+                                            <div className="flex justify-between">
+
                       <div className=" min-w-60  flex justify-between">
                         <div
                           className={` p-2 w-full flex justify-between items-center ${
@@ -197,6 +199,7 @@ function Sales() {
                     >
                       send bill
                     </button>:null}
+                    </div>
                     
                     </td>
                     {/* <button className="btn btn-square btn-ghost">

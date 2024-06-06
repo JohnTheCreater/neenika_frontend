@@ -14,7 +14,7 @@ const Login = () => {
       e.preventDefault();
       
       
-      if (username == '' || password == '') {
+      if (username === '' || password === '') {
         setError(true);
       }
       else
@@ -22,7 +22,7 @@ const Login = () => {
 
         axios.post('https://neenika-backend.onrender.com/api/doLogin',{username:username,password:password})
         .then(result=>{
-          if(result.status==200)
+          if(result.status===200)
           {
             login()
             navigate('/home')

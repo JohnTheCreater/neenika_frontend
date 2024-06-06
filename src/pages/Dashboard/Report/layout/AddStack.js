@@ -90,7 +90,7 @@ const AddStack = () => {
           </div>
         )}
         <div className="flex justify-center items-center gap-10">
-          <div className="p-2 rounded-[.2rem] bg-primary text-white"> {shop == 1 ? "Madurai" : "Karisal"}</div>
+          <div className="p-2 rounded-[.2rem] bg-primary text-white"> {shop === 1 ? "Madurai" : "Karisal"}</div>
           <div className=" btn">{dayjs(date).format("DD-MM-YYYY")}</div>
           
         </div>
@@ -123,7 +123,7 @@ const AddStack = () => {
                         value={oilAndCakeValue}
                       ></input>
                       <label className="text-xl font-medium">
-                        {selectedType == 0 ? " ltr" : " kg"}
+                        {selectedType === 0 ? " ltr" : " kg"}
                       </label>
                     </div>
                   </div>
@@ -150,7 +150,7 @@ const AddStack = () => {
                       </div>
                       <div className="text-2xl  p-5 font-bold">
                         {item.quantity}
-                        {item.selectedType== 0 ? " ltr" : " kg"}
+                        {item.selectedType=== 0 ? " ltr" : " kg"}
                       </div>
                     </li>
                   </div>
