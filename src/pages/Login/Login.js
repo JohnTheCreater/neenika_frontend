@@ -20,11 +20,12 @@ const Login = () => {
       else
       {
 
-        axios.post('https://neenika-backend.onrender.com/api/doLogin',{username:username,password:password})
+        axios.post('https://neeniappsail-50019777158.development.catalystappsail.in/api/doLogin',{username:username,password:password})
         .then(result=>{
           if(result.status===200)
           {
             login()
+            sessionStorage.setItem('isLoggedIn','true');
             navigate('/home')
 
           }

@@ -208,6 +208,7 @@ const DoGrind = ({ setIsDoGrind, setIsError }) => {
 
 const Production = () => {
   const color = ["red", "yellow", "blue"];
+  const t=['name','sesame','groundnut','coconut']
   // const products = ["oil", "cake", "raw"];
   const type=useMemo(()=>["sesame","groundnut","coconut"],[])
   const [isAddRaw, setIsAddRaw] = useState(false);
@@ -266,18 +267,18 @@ const Production = () => {
   const [modifiedLogList, setModifiedLogList] = useState([]);
 
   useEffect(() => {
-    const newLogList = loglist.map((item) => {
+    const newLogList = loglist.map((item,index) => {
       if (item.used) {
         return {
           ...item,
           message: `${item.used} kg raw ${type[item.oil_type]} used, ${item.grinded} grinds and ${item.produced_oil} ltr ${type[item.oil_type]} oil,${item.produced_cake} kg ${type[item.oil_type]} cake  produced on ${dayjs(item.date).format("DD-MM-YYYY")}! `,
-          typ: 2,
+          typ: 2,id2:index
         };
       } else {
         return {
           ...item,
           message: `${item.value} kg  raw ${type[item.oil_type]} added on ${dayjs(item.date).format("DD-MM-YYYY ")}!`,
-          typ: 1,
+          typ: 1,id2:index
         };
       }
     });
@@ -307,8 +308,12 @@ const Production = () => {
     axios.post('https://neenika-backend.onrender.com/api/undo',{id:item.id,type:item.typ})
     .then(result=>{
       console.log("dini",result)
+      const newLog=modifiedLogList.filter(prod=>prod.id2!==item.id2);
+    setModifiedLogList(newLog)
     })
     .catch(err=>console.log(err))
+
+    
 
   }
   return (
@@ -365,7 +370,7 @@ const Production = () => {
 
                 )))}
               </tr> */}
-            {list &&
+            {list.length!==0?
               list.map((items, index) => {
                 return (
                   <tr className={``}>
@@ -375,7 +380,7 @@ const Production = () => {
                     ))}
                   </tr>
                 );
-              })}
+              }):<tr className="h-36">{t.map(item=><td className="skeleton h-full rounded-[0px]"></td>)}</tr>}
           </tbody>
         </table>
         <div className=" min-w-full md:max-w-[80%] md:min-w-[80%] flex justify-between mt-5">
@@ -410,8 +415,8 @@ const Production = () => {
       </div>
      
       <div className=" p-1 overflow-auto min-h-[40vh] max-h-[40vh]  md:min-w-[40%] md:max-w-[40%] bg-white rounded-[1rem]">
-        {modifiedLogList.map((item) => (
-          <div className="text-neutral p-1 border-b border-gray-400">
+        {modifiedLogList.map((item,index) => (
+          <div key={index} className="text-neutral p-1 border-b border-gray-400">
             {item.message}
             <button className="p-1 text-blue-600" onClick={()=>handleUndo(item)}>undo</button>
           </div>

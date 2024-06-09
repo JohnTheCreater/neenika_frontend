@@ -8,7 +8,7 @@ import { IoClose } from "react-icons/io5";
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
-    <div className="flex   w-full bg-white  border justify-between  items-center">
+    <div className="flex p-.2  w-full bg-white  border justify-between  items-center">
       <Logo />
       <div className={`${isMenuOpen?'opacity-100 visible duration-300' : 'opacity-0 invisible'} md:opacity-100  md:visible absolute h-full mt-40 md:relative md:mt-0`}>
         <Nav />
