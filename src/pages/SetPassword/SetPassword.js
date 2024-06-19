@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react'
 import { useState } from 'react';
-
+import { API_URL } from '../../config';
 const SetPassword = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -16,7 +16,7 @@ const SetPassword = () => {
       }
       else
       {
-        axios.post('https://neenika-backend.onrender.com/api/setPassword',{username:username,password:password})
+        axios.post(`${API_URL}/api/setPassword`,{username:username,password:password})
         .then(result=>{
             console.log(result)
         })

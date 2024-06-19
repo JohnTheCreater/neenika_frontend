@@ -9,6 +9,7 @@ import { TiPlusOutline } from "react-icons/ti";
 import { ImCross } from "react-icons/im";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../../../config";
 
 // const InputEx = () => (
 //   <Input icon="users" iconPosition="left" placeholder="Search users..." />
@@ -71,7 +72,7 @@ const Edit = ({ setEditMode, date, list1, userList, shop }) => {
     setIsSubmitClicked(true)
 
     axios
-      .post("https://neenika-backend.onrender.com/api/insertSales", { list, date, shop })
+      .post(`${API_URL}/api/insertSales`, { list, date, shop })
       .then((res) => {
         console.log("res", res);
         setEditMode(false);
@@ -470,7 +471,7 @@ function ReportLayOut({ products, columns, date, shop }) {
   const size_options = ["1 ltr", "1/2 ltr", "200ml", "100ml", "cake"];
   useEffect(() => {
     axios
-      .post(`https://neenika-backend.onrender.com/api/getSales`, { date, shop })
+      .post(`${API_URL}/api/getSales`, { date, shop })
       .then((res) => {
         setList(res.data);
         get_list();
@@ -478,7 +479,7 @@ function ReportLayOut({ products, columns, date, shop }) {
   }, [editMode, shop,date]);
   const get_list = () => {
     axios
-      .post("https://neenika-backend.onrender.com/api/getCustomer")
+      .post(`${API_URL}/api/getCustomer`)
       .then((res) => {
         setUserList(res.data);
       })
@@ -535,8 +536,11 @@ function ReportLayOut({ products, columns, date, shop }) {
                       } rounded-[1rem] flex  items-center justify-center justify-between p-4 `}
                     >
                       <div className="min-w-[30%] max-w-[60%]">
-                        <div className="">
-                          <p>{user?.full_name}</p>
+                        <div className="w-full h-full">
+                          {
+                            user? <p>{user.full_name}</p>:<div className="skeleton min-w-full h-full w-full min-h-full glass  flex justify-center items-center text-sm">loading..</div>
+                          }
+                         
                         </div>
                         <div className="min-w-[30%] max-w-[30%] text-sm">
                           <p>{oil_options[item.product_id - 1]}</p>

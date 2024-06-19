@@ -15,7 +15,8 @@ import Login from "./pages/Login/Login";
 import PrivateRoute from "./PrivateRoute";
 import { AuthProvider } from "./AuthContext";
 import SetPassword from "./pages/SetPassword/SetPassword";
-
+import {disableReactDevTools} from '@fvilers/disable-react-devtools';
+if(process.env.NODE_ENV==='production') disableReactDevTools();
 const DefaultRedirect = () => {
   const navigate = useNavigate();
 
@@ -67,6 +68,7 @@ const router = createBrowserRouter([
     element:<SetPassword/>
   }
 ]);
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>

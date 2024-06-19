@@ -2,6 +2,7 @@ import { React, useState } from "react";
   import DropdownL from "../Dashboard/DropdownL";
 import { IoCloseSharp } from "react-icons/io5";
 import axios from "axios";
+import { API_URL } from "../../config";
 
 const AddCustomer = ({ isAdd, setIsAdd }) => {
   const genders = ["male", "female", "others"];
@@ -59,7 +60,7 @@ const AddCustomer = ({ isAdd, setIsAdd }) => {
       trimedZip !== ""
     ) {
       axios
-        .post("https://neenika-backend.onrender.com/api/checkEmail", { email: trimedEmail })
+        .post(`${API_URL}/api/checkEmail`, { email: trimedEmail })
         .then((result) => {
           const updatedFormDetails = {
             ...formDetails,
@@ -178,7 +179,7 @@ const AddCustomer = ({ isAdd, setIsAdd }) => {
 
   const handleAddList = () => {
     axios
-      .post("https://neenika-backend.onrender.com/api/addCustomer", customerList)
+      .post(`${API_URL}/api/addCustomer`, customerList)
       .then((res) => console.log(res));
     setIsAdd(false);
   };

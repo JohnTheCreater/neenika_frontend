@@ -7,6 +7,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 import { FaBell } from "react-icons/fa";
 import Calendar from "react-calendar";
+import { API_URL } from "../../config";
 
 function Sales() {
   const options = ["Madurai", "Karisal"];
@@ -28,7 +29,7 @@ function Sales() {
   };
   // useEffect(() => {
   //   axios
-  //     .post("https://neeniappsail-50019777158.development.catalystappsail.in/api/getSales", {
+  //     .post("/api/getSales", {
   //       shop: current,
   //       startDate: startDate,
   //       endDate: endDate,
@@ -38,7 +39,7 @@ function Sales() {
   //       const userIds = res.data.map((user) => user.user_id);
   //       // setUserIdList(userIds);
   //       return axios
-  //         .post("https://neeniappsail-50019777158.development.catalystappsail.in/api/getCustomer", {
+  //         .post("/api/getCustomer", {
   //           list: userIds,
   //         })
   //         .then((res) => {
@@ -53,14 +54,14 @@ function Sales() {
   // }, [current, buttonClicked, startDate, endDate]);
   // useEffect(() => {
   //   axios
-  //     .post(`https://neeniappsail-50019777158.development.catalystappsail.in/api/get`, {
+  //     .post(`/api/get`, {
   //       tableName: "product",
   //     })
   //     .then((result) => {
   //       console.log("res", result.data);
   //       setProducts(result.data);
   //       return axios
-  //         .post(`https://neeniappsail-50019777158.development.catalystappsail.in/api/get`, {
+  //         .post(`/api/get`, {
   //           tableName: "volume",
   //         })
   //         .then((result) => {
@@ -73,11 +74,11 @@ function Sales() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const salesResponse = await axios.post("https://neeniappsail-50019777158.development.catalystappsail.in/api/getSales", { shop: current, startDate: startDate, endDate: endDate });
+        const salesResponse = await axios.post(`${API_URL}/api/getSales`, { shop: current, startDate: startDate, endDate: endDate });
         const userIds = salesResponse.data.map((user) => user.user_id);
-        const customerResponse = await axios.post("https://neeniappsail-50019777158.development.catalystappsail.in/api/getCustomer", { list: userIds });
-        const productResponse = await axios.post(`https://neeniappsail-50019777158.development.catalystappsail.in/api/get`, { tableName: "product" });
-        const volumeResponse = await axios.post(`https://neeniappsail-50019777158.development.catalystappsail.in/api/get`, { tableName: "volume" });
+        const customerResponse = await axios.post(`${API_URL}/api/getCustomer`, { list: userIds });
+        const productResponse = await axios.post(`${API_URL}/api/get`, { tableName: "product" });
+        const volumeResponse = await axios.post(`${API_URL}/api/get`, { tableName: "volume" });
   
         setList(salesResponse.data);
         setUserList(customerResponse.data);
@@ -97,7 +98,7 @@ function Sales() {
     isChecked = isChecked ? 0 : 1;
     setButtonClicked(true);
     axios
-      .post("https://neeniappsail-50019777158.development.catalystappsail.in/api/setPurchaseType", {
+      .post(`${API_URL}/api/setPurchaseType`, {
         isChecked,
         saleId,
       })
@@ -109,7 +110,7 @@ function Sales() {
   };
   const handleNotify = (user_id) => {
     axios
-      .post("https://neeniappsail-50019777158.development.catalystappsail.in/api/sendNotification", {
+      .post(`${API_URL}/api/sendNotification`, {
         user_id,
       })
       .then((result) => {
@@ -121,7 +122,7 @@ function Sales() {
 
   const sendBill = (userId, date) => {
     axios
-      .post("https://neeniappsail-50019777158.development.catalystappsail.in/api/sendBill", {
+      .post(`${API_URL}/api/sendBill`, {
         userId,
         date,
       })
@@ -144,7 +145,9 @@ function Sales() {
               textColor={"white"}
             />
           </div>
-          <div>
+          <div className="bg-white min-w-60  flex p-2 justify-between">
+            <div className="flex flex-col">
+            <lable>from:</lable>
             <button
               className="btn "
               onClick={() => setIsEndCalendarOpen(!isEndCalendarOpen)}
@@ -157,6 +160,9 @@ function Sales() {
                 <Calendar onChange={setEndDate} value={endDate} />
               </div>
             )}
+            </div>
+            <div  className="flex flex-col">
+            <lable>to:</lable>
             <button
               className="btn "
               onClick={() => setIsStartCalendarOpen(!isStartCalendarOpen)}
@@ -169,7 +175,11 @@ function Sales() {
                 <Calendar onChange={setStartDate} value={startDate} />
               </div>
             )}
+            </div>
           </div>
+          <div>
+            
+            </div>
         </div>
 
         {/* <button className="btn m-1" onClick={()=>setIsEndCalendarOpen(!isEndCalendarOpen)}>{dayjs(endDate).format("DD-MM-YYYY")}</button> */}

@@ -5,6 +5,7 @@ import Drop from "./Drop";
 import { FiPlus } from "react-icons/fi";
 import dayjs from "dayjs";
 import axios from "axios";
+import { API_URL } from "../../../../config";
 
 const AddStack = () => {
   const [SelectedOil, setSelectedOil] = useState(0);
@@ -67,7 +68,7 @@ const AddStack = () => {
   };
 
   const doSubmit=()=>{
-    axios.post('https://neenika-backend.onrender.com/api/stackUpdate',{oilAndCake:oilAndCakeList,shop:shop})
+    axios.post(`${API_URL}/api/stackUpdate`,{oilAndCake:oilAndCakeList,shop:shop})
     .then(result=>console.log(result))
     .catch(err=>console.log(err))
   }

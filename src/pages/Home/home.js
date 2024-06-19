@@ -6,12 +6,12 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
 import Production from "./Production";
-
+import { API_URL } from "../../config";
 const Slide = ({ list, shop }) => {
   const oil = ["sesame", "groundnut", "coconut"];
   const volume = ["1 ltr", "1/2 ltr", "200 ml", "100 ml"];
   const color = ["red", "yellow", "blue"];
-  const prod = ["bottle caps", "stickers"];
+  const prod = ["bottles", "caps"];
   const shopp = shop === "Madurai" ? 1 : 2;
   const [oilData, setOilData] = useState([]);
   const [oilList, setOilList] = useState([]);
@@ -31,27 +31,28 @@ const Slide = ({ list, shop }) => {
   useEffect(() => {
     console.log("splited", list);
   }, [list]);
-
   useEffect(() => {
-    const oil_stack = oilData?.reduce((acc, item) => {
-      if (item.shop === shopp && item.type === 1) acc.push(item);
-      return acc;
-    }, []);
+    const oil_stack = Array.isArray(oilData)
+      ? oilData.reduce((acc, item) => {
+          if (item.shop === shopp && item.type === 1) acc.push(item);
+          return acc;
+        }, [])
+      : [];
     console.log(oil_stack);
     setOilList(oil_stack);
-    const cake_stack = oilData.reduce((acc, item) => {
-      if (item.shop === shopp && item.type === 2) acc.push(item);
-      return acc;
-    }, []);
+    const cake_stack = Array.isArray(oilData)
+      ? oilData.reduce((acc, item) => {
+          if (item.shop === shopp && item.type === 2) acc.push(item);
+          return acc;
+        }, [])
+      : [];
     setCakeList(cake_stack);
   }, [oilData, shopp]);
   useEffect(() => {
-    axios
-      .get("https://neenika-backend.onrender.com/api/getOilStack")
-      .then((result) => {
-        setOilData(result.data);
-        console.log("oil data recived ", result.data);
-      });
+    axios.get(`${API_URL}/api/getOilStack`).then((result) => {
+      setOilData(result.data);
+      console.log("oil data recived ", result.data);
+    });
   }, []);
 
   return (
@@ -106,7 +107,6 @@ const Slide = ({ list, shop }) => {
           </table>
         </div>
         <div className="hidden md:flex md:flex-wrap md:justify-between  md:min-w-[50%]">
-          
           {Object.keys(splites_list).length > 0
             ? Object.keys(splites_list).map((key, index) => {
                 return (
@@ -138,23 +138,29 @@ const Slide = ({ list, shop }) => {
                 );
               })
             : Array.from({ length: 6 }).map((_, index) => (
-              <div className=" skeleton min-w-[15%] flex flex-col flex-wrap items-center text-gray-700">
-                <h1 className="text-sm">Loading...</h1>
-                {Array.from({ length: Object.keys(splites_list).length }).map((item) => (
-                  <div>
-                    <h1 className="text-lg flex justify-center">Loading...</h1>
-                    {Array.from({ length: 4 }).map((it) => (
-                      <div className={`skeleton min-w-40 overflow-hidden rounded-[.2rem] max-w-60`}>
-                        <div className="flex glass p-2 text-sm border-b justify-between">
-                          <span >Loading...</span>
-                          <span>Loading...</span>
-                        </div>
+                <div className=" skeleton min-w-[15%] flex flex-col flex-wrap items-center text-gray-700">
+                  <h1 className="text-sm">Loading...</h1>
+                  {Array.from({ length: Object.keys(splites_list).length }).map(
+                    (item) => (
+                      <div>
+                        <h1 className="text-lg flex justify-center">
+                          Loading...
+                        </h1>
+                        {Array.from({ length: 4 }).map((it) => (
+                          <div
+                            className={`skeleton min-w-40 overflow-hidden rounded-[.2rem] max-w-60`}
+                          >
+                            <div className="flex glass p-2 text-sm border-b justify-between">
+                              <span>Loading...</span>
+                              <span>Loading...</span>
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            ))}
+                    )
+                  )}
+                </div>
+              ))}
         </div>
       </div>
     </div>
@@ -167,17 +173,19 @@ function Home() {
   const [karisalData, setKarisalData] = useState([]);
   useEffect(() => {
     axios
-      .get("https://neenika-backend.onrender.com/api/getStack")
+      .get(`${API_URL}/api/getStack`)
       .then((result) => {
         // console.log("st da",result.data);
         setData(result.data);
+        console.log("joshuda",result)
       })
       .catch((err) => console.log(err));
+      console.log("er")
   }, []);
   useEffect(() => {
-    const madurai_stack = data.filter((item) => item.shop === 1);
+    const madurai_stack = Array.isArray(data)?data.filter((item) => item.shop === 1):[];
     setMaduraiData(madurai_stack);
-    const karisal_stack = data.filter((item) => item.shop === 2);
+    const karisal_stack = Array.isArray(data)?data.filter((item) => item.shop === 2):[];
     setKarisalData(karisal_stack);
   }, [data]);
 

@@ -3,7 +3,7 @@ import axios from "axios";
 import DropdownL from "../Dashboard/DropdownL";
 import Search from "../Dashboard/Search";
 import { LuFolderEdit } from "react-icons/lu";
-
+import { API_URL } from "../../config";
 
 const EditCustomer = ({ setIsEdit }) => {
   const genders = ["male", "female", "others"];
@@ -30,7 +30,7 @@ const EditCustomer = ({ setIsEdit }) => {
   const [sureRemove,setSureRemove]=useState(false)
   useEffect(() => {
     axios
-      .post("https://neenika-backend.onrender.com/api/getCustomer")
+      .post(`${API_URL}/api/getCustomer`)
       .then((result) => {
         setUserList(result.data);
         console.log("cus:::", result.data);
@@ -69,7 +69,7 @@ const EditCustomer = ({ setIsEdit }) => {
     ) {
       console.log("user i:",userId)
       axios
-        .post("https://neenika-backend.onrender.com/api/checkEmail", { email: trimedEmail,id:userId })
+        .post(`${API_URL}/api/checkEmail`, { email: trimedEmail,id:userId })
         .then((result) => {
           const updatedFormDetails = {
             ...formDetails,
@@ -83,7 +83,7 @@ const EditCustomer = ({ setIsEdit }) => {
             updatedFormDetails,
           ]);
 
-          axios.post('https://neenika-backend.onrender.com/api/updateUser',{user:updatedFormDetails,id:userId})
+          axios.post(`${API_URL}/api/updateUser`,{user:updatedFormDetails,id:userId})
           .then(result=>{
             setFormDetails({
               fullname: "",
@@ -208,7 +208,7 @@ const EditCustomer = ({ setIsEdit }) => {
 
   //handle remove
   const handleRemove=()=>{
-    axios.post('https://neenika-backend.onrender.com/api/removeUser',{id:userId})
+    axios.post(`${API_URL}/api/removeUser`,{id:userId})
     .then(result=>{
       console.log("user removed")
       setFormDetails({

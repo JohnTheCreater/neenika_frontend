@@ -7,7 +7,7 @@ import axios from "axios";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import dayjs from 'dayjs'
-
+import { API_URL } from "../../config";
 
 const AddRaw = ({ setIsAddRaw, setIsError }) => {
   const [selected, setSelected] = useState(0);
@@ -31,7 +31,7 @@ const AddRaw = ({ setIsAddRaw, setIsError }) => {
   const handleSubmit = () => {
     if (rawData.value) {
       axios
-        .post("https://neenika-backend.onrender.com/api/setProductionRawStack", {
+        .post(`${API_URL}/api/setProductionRawStack`, {
           rawData: rawData,
         })
         .then((result) => {
@@ -113,7 +113,7 @@ const DoGrind = ({ setIsDoGrind, setIsError }) => {
     if(grindData.used&&grindData.grind&&grindData.producedCake && grindData.producedOil)
     {
       axios
-      .post("https://neenika-backend.onrender.com/api/doGrind", {
+      .post(`${API_URL}/api/doGrind`, {
         grindData:grindData,
       })
       .then((result) => {
@@ -227,20 +227,21 @@ const Production = () => {
   const [endDate,setEndDate]=useState(date)
   const [isError, setIsError] = useState({ message: "", value: false });
   useEffect(() => {
-    axios.get("https://neenika-backend.onrender.com/api/getProduction").then((result) => {
+    axios.get(`${API_URL}/api/getProduction`).then((result) => {
       setProdInfo(result.data);
     });
   }, []);
 
   useEffect(() => {
     setList(() => {
-      const obj = prodInfo.reduce((acc, item) => {
+      const obj = Array.isArray(prodInfo)?prodInfo.reduce((acc, item) => {
         if (!acc[item.type]) {
           acc[item.type] = [];
         }
         acc[item.type].push(item.stack);
         return acc;
-      }, {});
+      }, {})
+      :[];
 
       return Object.entries(obj).map(([type, stack]) => ({ type, stack }));
     });
@@ -251,7 +252,7 @@ const Production = () => {
   }, [list]);
   useEffect(()=>{
     console.log(startDate,endDate)
-    axios.get(`https://neenika-backend.onrender.com/api/getLog/${startDate}/${endDate}`)
+    axios.get(`${API_URL}/api/getLog/${startDate}/${endDate}`)
     .then(result=>
       setLoglist(result.data)
       )
@@ -267,7 +268,7 @@ const Production = () => {
   const [modifiedLogList, setModifiedLogList] = useState([]);
 
   useEffect(() => {
-    const newLogList = loglist.map((item,index) => {
+    const newLogList = Array.isArray(loglist)?loglist.map((item,index) => {
       if (item.used) {
         return {
           ...item,
@@ -281,7 +282,7 @@ const Production = () => {
           typ: 1,id2:index
         };
       }
-    });
+    }):[];
   
     newLogList.sort((a, b) => new Date(b.date) - new Date(a.date));
     setModifiedLogList(newLogList);
@@ -305,7 +306,7 @@ const Production = () => {
 
   const handleUndo=(item)=>{
 
-    axios.post('https://neenika-backend.onrender.com/api/undo',{id:item.id,type:item.typ})
+    axios.post(`${API_URL}/api/undo`,{id:item.id,type:item.typ})
     .then(result=>{
       console.log("dini",result)
       const newLog=modifiedLogList.filter(prod=>prod.id2!==item.id2);
@@ -415,7 +416,7 @@ const Production = () => {
       </div>
      
       <div className=" p-1 overflow-auto min-h-[40vh] max-h-[40vh]  md:min-w-[40%] md:max-w-[40%] bg-white rounded-[1rem]">
-        {modifiedLogList.map((item,index) => (
+        {modifiedLogList?.map((item,index) => (
           <div key={index} className="text-neutral p-1 border-b border-gray-400">
             {item.message}
             <button className="p-1 text-blue-600" onClick={()=>handleUndo(item)}>undo</button>

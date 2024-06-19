@@ -4,7 +4,7 @@ import axios from "axios";
 import LayOut from "../LayOut/LayOut";
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer";
-
+import { API_URL } from "../../config";
 export default function Customers() {
   const [isAdd, setIsAdd] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -12,7 +12,7 @@ export default function Customers() {
 
   const get_list = () => {
     axios
-      .post("https://neenika-backend.onrender.com/api/getCustomer")
+      .post(`${API_URL}/api/getCustomer`)
       .then((res) => {
         setList(res.data);
       })
