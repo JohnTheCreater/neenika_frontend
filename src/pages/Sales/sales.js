@@ -24,6 +24,8 @@ function Sales() {
   const [endDate, setEndDate] = useState(date);
   const [isStartCalendarOpen, setIsStartCalendarOpen] = useState(false);
   const [isEndCalendarOpen, setIsEndCalendarOpen] = useState(false);
+  const [loadingStates, setLoadingStates] = useState({});
+
   const handleSelect = (option) => {
     setCurrent(option);
   };
@@ -79,7 +81,6 @@ function Sales() {
         const customerResponse = await axios.post(`${API_URL}/api/getCustomer`, { list: userIds });
         const productResponse = await axios.post(`${API_URL}/api/get`, { tableName: "product" });
         const volumeResponse = await axios.post(`${API_URL}/api/get`, { tableName: "volume" });
-  
         setList(salesResponse.data);
         setUserList(customerResponse.data);
         setProducts(productResponse.data);
@@ -114,26 +115,47 @@ function Sales() {
         user_id,
       })
       .then((result) => {
+        alert("customer notified!")
+
         console.log(result);
-        alert("Bill is sended to customer!")
       })
       .catch((err) => console.log(err));
   };
 
-  const sendBill = (userId, date) => {
+  const sendBill = (userId, date,saleId) => {
+    setLoadingStates(prev => ({ ...prev, [saleId]: true }));
     axios
       .post(`${API_URL}/api/sendBill`, {
         userId,
         date,
       })
-      .then((result) => console.log(result))
-      .catch((err) => console.log(err));
+      .then((result) =>{
+        alert("Bill is sended to customer!")
+
+        setLoadingStates(prev => ({ ...prev, [saleId]: false }));
+
+      })
+      .catch((err) => {
+        setLoadingStates(prev => ({ ...prev, [saleId]: false }));
+
+        if (err.response) {
+         
+          console.log('Error data:', err.response.data);
+          console.log('Error status:', err.response.status);
+          console.log('Error headers:', err.response.headers);
+        } else if (err.request) {
+          console.log('Error request:', err.request);
+        } else {
+          console.log('Error message:', err.message);
+        }
+        console.log('Error config:', err.config);
+      });
   };
 
   return (
     <LayOut>
       <div className=" h-full space-y-10 p-2 md:p-5">
-        <div className="flex">
+        <div className="md:flex">
           <div className="flex justify-center items-center">
             {" "}
             <DropdownL
@@ -145,7 +167,7 @@ function Sales() {
               textColor={"white"}
             />
           </div>
-          <div className="bg-white min-w-60  flex p-2 justify-between">
+          <div className="bg-white md:min-w-60  flex p-2 justify-between">
             <div className="flex flex-col">
             <lable>from:</lable>
             <button
@@ -198,7 +220,7 @@ function Sales() {
               </tr>
             </thead>
             <tbody>
-              {list.length>0?list.map((item) => {
+              {list.length>0?list.map((item,index) => {
                 const dateIST = dayjs(item.date).format("YYYY-MM-DD");
                 const purchase_type = item.isChecked ? "paid" : "unpaid";
                 const user = userList.find(
@@ -210,6 +232,7 @@ function Sales() {
                 const volume = volumes.find(
                   (volume) => volume.volume_id === item.volume_id
                 );
+
                 console.log(volume);
                 return (
                   <tr className="border bg-white  ">
@@ -260,10 +283,12 @@ function Sales() {
                         </div>
                         {item.isChecked ? (
                           <button
-                            onClick={() => sendBill(item.user_id, item.date)}
+                            onClick={() => sendBill(item.user_id, item.date,item.sale_id)}
                             className="btn"
+                            key={index}
                           >
-                            send bill
+                            {loadingStates[item.sale_id] ?<div className="loading loading-spinner"></div>:<span>send bill</span>}
+                            
                           </button>
                         ) : null}
                       </div>

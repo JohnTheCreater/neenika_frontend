@@ -87,7 +87,7 @@ const Search = ({
         placeholder="select name"
       />
       {inputValue && suggestion.length > 0 && (
-        <div className="p-2 absolute w-[19%] mx-1 glass  border ">
+        <div className="p-2 absolute w-[50%]  mx-1 glass  border ">
           <ul>
             {suggestion.map((name, index) => {
               return (

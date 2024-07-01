@@ -60,6 +60,7 @@ const Edit = ({ setEditMode, date, list1, userList, shop }) => {
   const [userId, setUserId] = useState("");
   const [isSubmitClicked,setIsSubmitClicked]=useState(false)
   const [error,setError]=useState({message:"",state:false})
+  const [isAdd,setIsAdd]=useState(false);
   useEffect(() => {
     setList(list1);
     console.log("new list", list1);
@@ -132,6 +133,7 @@ const Edit = ({ setEditMode, date, list1, userList, shop }) => {
       }
       else{
         setList(newList);
+        setIsAdd(false);
       }
         setUserId("");
         setSelectedName("");
@@ -184,19 +186,20 @@ const Edit = ({ setEditMode, date, list1, userList, shop }) => {
   // }, []);
 
   return (
-    <div className="absolute glass  bg-opacity-50 text-white flex-col z-20 flex  p-4 rounded-[1rem] h-[80%] w-full ">
-      <div className="h-full w-full flex flex-col md:flex-row md:justify-between">
-        <div>
+    <div className="absolute glass  bg-opacity-50 text-white flex-col z-20 flex  p-4 rounded-[1rem] md:h-[80%] h-full w-full ">
+           <div>
           <button
             onClick={() => {
               setEditMode(false);
             }}
             type="button"
-            className="btn hover:bg-red-700 text-white bg-red-500"
+            className="w-20 btn hover:bg-red-700 text-white bg-red-500"
           >
             back
           </button>
-        </div>
+          </div>
+      <div className="h-full w-full flex flex-col md:flex-row md:justify-between">
+   
         {
           error.state&&<div className="absolute rounded-[.3rem] mx-[30%] text-black z-50 bg-white  border">
             <div className="flex flex-col">
@@ -206,10 +209,10 @@ const Edit = ({ setEditMode, date, list1, userList, shop }) => {
             
           </div>
         }
-        <div className="flex md:w-[50%]  flex-col justify-center items-center ">
-          <div className="bg-gray-200 min-w-[80%] min-h-[80%] text-black md:w-[35vw] w-full overflow-auto  rounded-2xl ">
+        <div className="flex mt-2 md:w-[50%] h-full flex-col justify-center items-center ">
+          <div className="bg-gray-200 min-w-[80%] min-h-[50%] max-h-[50%] h-[50%] text-black md:w-[35vw] w-full overflow-auto  rounded-2xl ">
             <div className="">
-              {list.map((item, index) => {
+              {list?list.map((item, index) => {
                 const user = userList.find(
                   (user) => user.user_id === item.user_id
                 );
@@ -248,14 +251,14 @@ const Edit = ({ setEditMode, date, list1, userList, shop }) => {
                         <TiPlusOutline color="yellow" />
                       </button>
                     </div>
-                    <div>
+                    <div className="">
                       <button onClick={() => handleRemove(item)}>
                         <ImCross />
                       </button>
                     </div>
                   </div>
                 );
-              })}
+              }):<div className="text-black">no data!</div>}
             </div>
           </div>
           <div className="mt-4 ">
@@ -264,10 +267,13 @@ const Edit = ({ setEditMode, date, list1, userList, shop }) => {
 :"submit"}
             </button>
           </div>
+          <div className="flex w-full justify-end">
+          <button className="btn  bg-green-500 hover:bg-green-700 text-white " onClick={()=>setIsAdd(true)}>add</button>
+          </div>
         </div>
 
-        <div className="w-full md:w-[50%] flex flex-col   justify-center items-center h-[100%] ">
-          <div className="border flex gap-6 rounded-[1rem] flex-col bg-white text-black p-10  w-[80%] h-[80%]">
+       {isAdd&& <div className={` md:p-0 w-full absolute md:mx-[50%]  md:z-0 my-10 md:flex  md:my-[-5%] md:w-[50%] md:flex md:flex-col   md:justify-center md:items-center h-[100%] `}>
+          <div className="border flex gap-6 h-full rounded-[1rem] flex-col bg-white text-black p-10  w-[80%] h-[80%]">
             <div className="flex flex-shrink justify-between items-center   z-40 h-[15%] w-[100%] ">
               <span className="flex items-center justify-center text-xl ">
                 name:
@@ -279,7 +285,7 @@ const Edit = ({ setEditMode, date, list1, userList, shop }) => {
                 onNameSelect={handleSelect}
                 setNoName={setNoName}
                 setSelectedName={setSelectedName}
-                size={"[50%]"}
+                size={"[50%] "}
               />
             </div>
             <div className="flex flex-col md:flex-row gap-2">
@@ -288,9 +294,9 @@ const Edit = ({ setEditMode, date, list1, userList, shop }) => {
                   options={oil_options}
                   current={oil}
                   onSelect={handleSelectOil}
-                  color={"bg-blue-500"}
+                  color={"bg-blue-500 z-40"}
                   hoverColor={"bg-red-500"}
-                  size={"40 "}
+                  size={"40  "}
                   textColor={"white"}
                 />
               </div>
@@ -362,8 +368,10 @@ const Edit = ({ setEditMode, date, list1, userList, shop }) => {
                 add
               </button>
             </div>
+            <button className=" btn bg-red-400 hover:bg-red-600 text-white" onClick={()=>setIsAdd(false)}> back</button>
           </div>
-        </div>
+        </div>}
+
       </div>
     </div>
   );

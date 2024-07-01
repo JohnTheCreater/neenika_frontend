@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LayOut from "../../../LayOut/LayOut";
 import { useNavigate, useParams } from "react-router-dom";
 import Drop from "./Drop";
@@ -25,6 +25,10 @@ const AddStack = () => {
   const bottle_product = ["bottle", "cap"];
   const { shop, date } = useParams();
   const nav = useNavigate();
+  useEffect(()=>{
+    console.log(shop,"hey boi");
+
+  },[shop])
   const handleBack = () => {
     nav(`/dashboard`);
   };
@@ -46,6 +50,8 @@ const AddStack = () => {
           selectedType: selectedType ,
         },
       ]);
+      console.log(oilAndCakeList)
+
     } else {
       setValueError(true);
     }
@@ -62,20 +68,24 @@ const AddStack = () => {
           quantity: bottleAndCapsValue,
         },
       ]);
+      console.log(bottleAndCapsList)
     } else {
       setValueError(true);
     }
   };
 
   const doSubmit=()=>{
-    axios.post(`${API_URL}/api/stackUpdate`,{oilAndCake:oilAndCakeList,shop:shop})
-    .then(result=>console.log(result))
+    axios.post(`${API_URL}/api/stackUpdate`,{oilAndCake:oilAndCakeList,bottleAndCaps:bottleAndCapsList,shop:shop})
+    .then(result=>{
+      console.log(result)
+      nav('/home')
+    })
     .catch(err=>console.log(err))
   }
 
   return (
     <LayOut>
-      <div className="p-6 bg-white min-h-[100%] h-full">
+      <div className="p-6 bg-white w-full md:min-h-[100%] h-full">
         {valueError && (
           <div className=" absolute items-center z-20 mx-[35%] my-[10%]  p-5 bg-white border border-yellow-600 rounded-[.5rem] w-60">
             <div className="flex flex-col p-1">
@@ -91,11 +101,11 @@ const AddStack = () => {
           </div>
         )}
         <div className="flex justify-center items-center gap-10">
-          <div className="p-2 rounded-[.2rem] bg-primary text-white"> {shop === 1 ? "Madurai" : "Karisal"}</div>
+          <div className="p-2 rounded-[.2rem] bg-primary text-white"> {parseInt(shop) === 1 ? "Madurai" : "Karisal"}</div>
           <div className=" btn">{dayjs(date).format("DD-MM-YYYY")}</div>
           
         </div>
-        <div className="flex justify-between min-h-[80%] ">
+        <div className="md:flex justify-between min-h-[80%] ">
           <div>
             <button
               className="btn  bg-red-500 text-white rounded-[.2rem]"
@@ -105,17 +115,17 @@ const AddStack = () => {
             </button>
           </div>
 
-          <div className="min-w-[90%] min-h-[80vh] flex flex-col gap-2">
-            <div className="flex items-center justify-between h-[30vh] ">
+          <div className="md:min-w-[90%] md:min-h-[80vh] flex flex-col gap-2">
+            <div className="m-5 md:m-0 flex items-center justify-between h-[30vh] ">
               {" "}
               <div>
                 <div className="">
                   <h1 className="text-xl font-bold">oil & cake</h1>
-                  <div className="flex w-full  items-center justify-between">
+                  <div className="md:flex w-full  items-center justify-between">
                     <Drop list={oil} setSelected={setSelectedOil} />
                     {/*  */}
                     <Drop list={product} setSelected={setSelectedType} />
-                    <div>
+                    <div className="flex items-center">
                       <input
                         type="number"
                         onChange={handleOilAndCakeChange}
@@ -129,27 +139,28 @@ const AddStack = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div>
+                <div>
                 <button
-                  className="btn bg-green-500 hover:bg-green-600 rounded-[.5rem]"
+                  className="btn m-2 bg-green-500 hover:bg-green-600 rounded-[.5rem]"
                   onClick={handleOilCakeAdd}
                 >
                   {" "}
                   <FiPlus color="white" size={25} />
                 </button>
-              </div>{" "}
-              <div className="min-w-60 max-w-60 h-full  overflow-auto  bg-gray-100 rounded-[.5rem] p-2">
+              </div>
+              </div>
+             {" "}
+              <div className="md:min-w-60 md:max-w-60 min-w-40 max-w-40 h-full  overflow-auto  bg-gray-100 rounded-[.5rem] p-2">
                 {oilAndCakeList.map((item) => (
                   <div className=" p-1">
                     <li className="flex justify-between  bg-red-100 rounded-[.5rem]">
                       <div className="font-bold p-2">
                         {product[item.product_type]}
-                        <div className="font-medium text-sm">
+                        <div className="md:font-medium  text-sm">
                           {oil[item.oil_name]}
                         </div>
                       </div>
-                      <div className="text-2xl  p-5 font-bold">
+                      <div className="text-2xl p-1 md:p-5 font-bold">
                         {item.quantity}
                         {item.selectedType=== 0 ? " ltr" : " kg"}
                       </div>
@@ -161,7 +172,7 @@ const AddStack = () => {
             <div className="flex items-center justify-between h-[30vh]">
               <div>
                 <h1 className="text-xl font-bold">Bottles & Caps</h1>
-                <div className="flex items-center justify-between">
+                <div className="md:flex items-center justify-between">
                   <Drop list={oil} setSelected={setSelectedOil1} />
                   {/*  */}
                   <Drop list={volume} setSelected={setSelectedVolume} />
@@ -180,17 +191,18 @@ const AddStack = () => {
                     ></input>
                   </div>
                 </div>
-              </div>
-              <div>
+                <div>
                 <button
                   onClick={handleBottleAndCapsAdd}
-                  className="btn bg-green-500 hover:bg-green-600 rounded-[.5rem]"
+                  className="btn m-2 bg-green-500 hover:bg-green-600 rounded-[.5rem]"
                 >
                   {" "}
                   <FiPlus color="white" size={25} />
                 </button>
               </div>
-              <div className="min-w-60 max-w-60 bg-gray-100 overflow-auto rounded-[.5rem] h-full p-3">
+              </div>
+           
+              <div className="md:min-w-60 md:max-w-60 min-w-40 max-w-40 h-full bg-gray-100 overflow-auto rounded-[.5rem] h-full p-3">
                 {bottleAndCapsList.map((item) => (
                   <div className=" p-1">
                     <li className="flex justify-between  bg-red-100 rounded-[.5rem]">

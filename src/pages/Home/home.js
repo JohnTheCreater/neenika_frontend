@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import axios from "axios";
 import Production from "./Production";
 import { API_URL } from "../../config";
+import { useNavigate } from "react-router-dom";
 const Slide = ({ list, shop }) => {
   const oil = ["sesame", "groundnut", "coconut"];
   const volume = ["1 ltr", "1/2 ltr", "200 ml", "100 ml"];
@@ -84,7 +85,7 @@ const Slide = ({ list, shop }) => {
                 {oilList.length !== 0
                   ? oilList.map((item, index) => (
                       <td className={`bg-${color[index]}-200`}>
-                        {item.oil_quantity}
+                        {parseFloat(item.oil_quantity).toFixed(2)}
                       </td>
                     ))
                   : oil.map((item) => (
@@ -96,7 +97,7 @@ const Slide = ({ list, shop }) => {
                 {cakeList.length !== 0
                   ? cakeList.map((item, index) => (
                       <td className={`bg-${color[index]}-200`}>
-                        {item.oil_quantity}
+                        {parseFloat(item.oil_quantity).toFixed(2)}
                       </td>
                     ))
                   : oil.map((item) => (
@@ -110,7 +111,7 @@ const Slide = ({ list, shop }) => {
           {Object.keys(splites_list).length > 0
             ? Object.keys(splites_list).map((key, index) => {
                 return (
-                  <div className="min-w-[15%] flex  flex-col flex-wrap items-center text-white">
+                  <div className="min-w-[15%] flex  flex-col flex-wrap items-center text-white" key={index}>
                     <h1 className="text-3xl ">{oil[key - 1]}</h1>
 
                     {Object.keys(splites_list[key]).map((item) => {
@@ -171,21 +172,26 @@ function Home() {
   const [data, setData] = useState([]);
   const [maduraiData, setMaduraiData] = useState([]);
   const [karisalData, setKarisalData] = useState([]);
+  const nav=useNavigate();
   useEffect(() => {
     axios
       .get(`${API_URL}/api/getStack`)
       .then((result) => {
         // console.log("st da",result.data);
         setData(result.data);
-        console.log("joshuda",result)
+        console.log("joshuda", result);
       })
       .catch((err) => console.log(err));
-      console.log("er")
+    console.log("er");
   }, []);
   useEffect(() => {
-    const madurai_stack = Array.isArray(data)?data.filter((item) => item.shop === 1):[];
+    const madurai_stack = Array.isArray(data)
+      ? data.filter((item) => item.shop === 1)
+      : [];
     setMaduraiData(madurai_stack);
-    const karisal_stack = Array.isArray(data)?data.filter((item) => item.shop === 2):[];
+    const karisal_stack = Array.isArray(data)
+      ? data.filter((item) => item.shop === 2)
+      : [];
     setKarisalData(karisal_stack);
   }, [data]);
 
@@ -219,6 +225,9 @@ function Home() {
       </div>
       <div className="p-2">
         <Production />
+      </div>
+      <div className="flex justify-end m-3">
+        <button className="btn btn-primary " onClick={()=>nav('/home/products')}>products</button>
       </div>
     </LayOut>
   );
