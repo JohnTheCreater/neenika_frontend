@@ -127,7 +127,7 @@ const Edit = ({ setEditMode, date, list1, userList, shop }) => {
           shop,
         },
       ];
-      if(list.find((item)=>item.user_id===userId&&item.volume_id===sizeIndex&&item.product_id===oilIndex))
+      if(list.find((item)=>item.user_id===userId && item.volume_id===sizeIndex &&item.product_id===oilIndex))
       {
         setError({message:"already have this user with this produuct! kindly update quantity!",state:true})
       }

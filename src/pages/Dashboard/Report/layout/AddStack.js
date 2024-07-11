@@ -40,7 +40,7 @@ const AddStack = () => {
     setBottleAndCapsValue(e.target.value);
   };
   const handleOilCakeAdd = () => {
-    if (oilAndCakeValue > 0) {
+    // if (oilAndCakeValue > 0) {
       setOilAndCakeList([
         ...oilAndCakeList,
         {
@@ -52,13 +52,13 @@ const AddStack = () => {
       ]);
       console.log(oilAndCakeList)
 
-    } else {
-      setValueError(true);
-    }
+    // } else {
+    //   setValueError(true);
+    // }
   };
 
   const handleBottleAndCapsAdd = () => {
-    if (bottleAndCapsValue > 0) {
+    // if (bottleAndCapsValue > 0) {
       setBottleAndCapsList([
         ...bottleAndCapsList,
         {
@@ -69,9 +69,9 @@ const AddStack = () => {
         },
       ]);
       console.log(bottleAndCapsList)
-    } else {
-      setValueError(true);
-    }
+    // } else {
+    //   setValueError(true);
+    // }
   };
 
   const doSubmit=()=>{

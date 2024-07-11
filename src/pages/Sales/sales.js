@@ -76,6 +76,7 @@ function Sales() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        endDate.setHours(23,59,59);
         const salesResponse = await axios.post(`${API_URL}/api/getSales`, { shop: current, startDate: startDate, endDate: endDate });
         const userIds = salesResponse.data.map((user) => user.user_id);
         const customerResponse = await axios.post(`${API_URL}/api/getCustomer`, { list: userIds });
